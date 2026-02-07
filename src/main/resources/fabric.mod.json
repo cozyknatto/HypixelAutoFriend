@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "hypixelautofriend",
+  "version": "${version}",
+  "name": "HypixelAutoFriend",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/hypixelautofriend/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-datagen": [
+      "app.Kotzi.hypixelautofriend.client.HypixelautofriendDataGenerator"
+    ],
+    "client": [
+      "app.Kotzi.hypixelautofriend.client.HypixelautofriendClient"
+    ],
+    "main": [
+      "app.Kotzi.hypixelautofriend.Hypixelautofriend"
+    ],
+    "modmenu": [
+      "app.Kotzi.hypixelautofriend.client.HypixelAutoFriendModMenuApi"
+    ]
+  },
+  "mixins": [
+    "hypixelautofriend.mixins.json",
+    {
+      "config": "hypixelautofriend.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
