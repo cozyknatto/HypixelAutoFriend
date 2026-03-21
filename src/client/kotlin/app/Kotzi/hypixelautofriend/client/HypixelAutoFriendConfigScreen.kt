@@ -76,6 +76,10 @@ class HypixelAutoFriendConfigScreen(parent: Screen?) : Screen(Text.literal("Hypi
         context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 20, 0xFFFFFF)
     }
 
+    override fun removed() {
+        HypixelAutoFriendConfig.save()
+    }
+
     override fun close() {
         client?.setScreen(parentScreen)
     }

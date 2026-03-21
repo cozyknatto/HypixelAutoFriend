@@ -1,17 +1,39 @@
 package app.Kotzi.hypixelautofriend.client
 
-/**
- * Client-side config for Hypixel Auto Friend.
- * Can be replaced with a proper config screen (e.g. ModMenu) later.
- */
+import com.google.gson.Gson
+import net.fabricmc.loader.api.FabricLoader
+
 object HypixelAutoFriendConfig {
 
-    /** When true, automatically accept incoming Hypixel friend requests. */
     var autoFriendEnabled: Boolean = true
-
-    /** When true, the friend request message is not shown in chat after auto-accepting. */
     var hideFriendRequestMessage: Boolean = true
-
-    /** When true, auto-accept only runs when connected to Hypixel (recommended). */
     var onlyOnHypixel: Boolean = true
+
+    private val configFile = FabricLoader.getInstance().configDir
+        .resolve("hypixelautofriend.json").toFile()
+    private val gson = Gson()
+
+    private data class ConfigData(
+        val autoFriendEnabled: Boolean = true,
+        val hideFriendRequestMessage: Boolean = true,
+        val onlyOnHypixel: Boolean = true
+    )
+
+    fun load() {
+        if (!configFile.exists()) return
+        try {
+            val data = gson.fromJson(configFile.readText(), ConfigData::class.java)
+            autoFriendEnabled = data.autoFriendEnabled
+            hideFriendRequestMessage = data.hideFriendRequestMessage
+            onlyOnHypixel = data.onlyOnHypixel
+        } catch (_: Exception) {
+            // keep defaults if file is corrupt
+        }
+    }
+
+    fun save() {
+        configFile.writeText(
+            gson.toJson(ConfigData(autoFriendEnabled, hideFriendRequestMessage, onlyOnHypixel))
+        )
+    }
 }
